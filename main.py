@@ -1,6 +1,7 @@
 import curses
 
-from LGUI import App, Color, Styles
+from LGUI import App, Component, Color, ColorPair
+
 
 def main(screen):
     app = App(screen)
@@ -8,17 +9,23 @@ def main(screen):
     app.clear()
     app.refresh()
 
-    color = Color((255,0,0),(255,255,255), 1)
-    app.add_component((10,10),"LoGick", color, (Styles.BOLD, Styles.UNDERLINE))
+    red = Color((255, 0, 0), 1)
+    green = Color((0, 255, 0), 2)
+    gray = Color((105, 105, 105), 3)
 
-    # repeat even if it is resized
-    while app.wait_for_key() == '\\':
-        pass
+    red_gray = ColorPair(red, gray, 1)
+    green_gray = ColorPair(green, gray, 2)
 
+    app.add_component(Component((5, 5), 'Hello World', red_gray))
+    app.add_component(Component((6, 5), 'Hello Green', green_gray))
+
+    while True:
+        key = app.wait_for_key()
+        print(key)
+        if key == 'q':
+            app.exit()
+            return
 
 
 if __name__ == "__main__":
     curses.wrapper(main)
-
-
-
