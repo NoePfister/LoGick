@@ -1,6 +1,8 @@
 import curses
 
-from LGUI import App, Component, Color, ColorPair
+from LGUI import App, Component, Color, ColorPair, Styles
+from LGUI.components.label import Label
+from LGUI.constants import Alignments
 
 
 def main(screen):
@@ -9,15 +11,18 @@ def main(screen):
     app.clear()
     app.refresh()
 
-    red = Color((255, 0, 0), 1)
-    green = Color((0, 255, 0), 2)
-    gray = Color((105, 105, 105), 3)
+    black = Color((0, 0, 0), 2)
+    white = Color((1000, 1000, 1000), 3)
 
-    red_gray = ColorPair(red, gray, 1)
-    green_gray = ColorPair(green, gray, 2)
+    green_gray = ColorPair(black, white, 2)
 
-    app.add_component(Component((5, 5), 'Hello World', red_gray))
-    app.add_component(Component((6, 5), 'Hello Green', green_gray))
+    label_end = Label("Ende", 8, Alignments.END, green_gray, (Styles.UNDERLINE, Styles.BOLD))
+    label_start = Label("start", 9, Alignments.START, green_gray, (Styles.UNDERLINE, Styles.BOLD))
+    label_centre = Label("centre", 10, Alignments.CENTRE, green_gray, (Styles.UNDERLINE, Styles.BOLD))
+
+    app.add_component(label_end)
+    app.add_component(label_start)
+    app.add_component(label_centre)
 
     while True:
         key = app.wait_for_key()

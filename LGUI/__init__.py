@@ -3,6 +3,7 @@ import curses
 from LGUI.color import Color, ColorPair
 from LGUI.constants import Styles
 from LGUI.component import Component
+from LGUI.components.label import Label
 
 print(f"Welcome to LGUI version {0.1}")
 
@@ -10,6 +11,7 @@ print(f"Welcome to LGUI version {0.1}")
 class App:
     def __init__(self, screen, enable_color: bool = True):
         self.screen = screen
+        curses.raw()
         if enable_color:
             curses.start_color()
 
@@ -25,12 +27,19 @@ class App:
     def refresh(self) -> None:
         self.clear()
         for comp in self.components:
+
+            # check if the component can recompute the position
+            compute_pos = getattr(comp, "compute_pos", None)
+            if callable(compute_pos):
+                comp.compute_pos()  # type: ignore
+
             style_combination = 0
             for style in comp.styles:
                 style_combination |= style.value
 
-            self.screen.addstr(comp.pos[0], comp.pos[1], comp.text,
-                               curses.color_pair(comp.color_pair.index) | style_combination)
+            # X and Y are in wrong order for dome reason. It is being corrected here
+            self.screen.addstr(comp.pos[1], comp.pos[0], comp.text,
+                               (curses.color_pair(comp.color_pair.index) | style_combination))
         self.screen.refresh()
 
     def add_component(self, comp: Component) -> None:
