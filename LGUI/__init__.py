@@ -8,7 +8,7 @@ from LGUI.components.label import Label
 print(f"Welcome to LGUI version {0.1}")
 
 
-class App:
+class TUI:
     def __init__(self, screen, enable_color: bool = True):
         self.screen = screen
         curses.raw()
@@ -53,9 +53,14 @@ class App:
         self.screen.clear()
         self.screen.refresh()
         curses.endwin()
+        exit(0)
 
     def clear(self) -> None:
         self.screen.clear()
+
+    def clean_screen(self):
+        self.components.clear()
+        self.clear()
 
     def wait_for_key(self) -> str:
         """
@@ -75,7 +80,7 @@ class App:
         except KeyboardInterrupt:
             key = ord('?')
 
-        return chr(key)
+        return key
 
     def resize(self):
         self.dimension = self.screen.getmaxyx()

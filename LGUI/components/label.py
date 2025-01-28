@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
 
 class Label(Component):
-    def __init__(self, text: str, pos_y: int, align: Alignments, color_pair: 'ColorPair', styles: tuple['Styles', ...]):
+    def __init__(self, text: str, pos_y: int, align: Alignments, color_pair: 'ColorPair',
+                 styles: tuple['Styles', ...] = ()):
         self.alignment = align
         self.pos_y = pos_y
         self.text = text
