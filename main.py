@@ -42,14 +42,16 @@ class Application:
 
     def device_select_screen(self) -> None:
         self.tui.clean_screen()
-        title = Label("LoGick - Select your current device", 1, Alignments.CENTRE, self.normal_color)
+        title = Label("LoGick - Select your current device", self.normal_color, (0, 0),
+                      (Alignments.CENTRE, Alignments.TOP))
         self.tui.add_component(title)
 
         self.devices = self.get_devices()
 
         for device in self.devices:
             self.device_comps.append(
-                Label(f'    - {device}', self.devices.index(device) + 5, Alignments.START, self.normal_color))
+                Label(f'    - {device}', self.normal_color, (0, self.devices.index(device)),
+                      (Alignments.START, Alignments.CENTRE)))
 
         for comp in self.device_comps:
             self.tui.add_component(comp)
@@ -75,10 +77,12 @@ class Application:
 
         selected_device = self.devices[self.selected]
 
-        title = Label("LoGick - Select the Config you want to sync", 1, Alignments.CENTRE, self.normal_color)
+        title = Label("LoGick - Select the Config you want to sync", self.normal_color, (0, 0),
+                      (Alignments.CENTRE, Alignments.TOP))
         self.tui.add_component(title)
 
-        selected_device_label = Label(f"Device Selected: {selected_device}", 3, Alignments.START, self.normal_color)
+        selected_device_label = Label(f"Device Selected: {selected_device}", self.normal_color, (0, 1),
+                                      (Alignments.CENTRE, Alignments.TOP))
         self.tui.add_component(selected_device_label)
 
         while True:

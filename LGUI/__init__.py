@@ -37,6 +37,10 @@ class TUI:
             for style in comp.styles:
                 style_combination |= style.value
 
+            max_y, max_x = self.screen.getmaxyx()
+            if comp.pos[1] >= max_y or comp.pos[0] + len(comp.text) >= max_x:
+                raise Exception(f"Text to big: {comp.pos} max: {max_x, max_y}")
+
             # X and Y are in wrong order for dome reason. It is being corrected here
             self.screen.addstr(comp.pos[1], comp.pos[0], comp.text,
                                (curses.color_pair(comp.color_pair.index) | style_combination))
